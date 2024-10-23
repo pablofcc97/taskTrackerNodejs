@@ -8,12 +8,12 @@ const taskController = new TaskController()
 const taskRouter = express.Router()
 taskRouter.route('/tasks')
           .get(authenticate, taskController.listTasks)
-          .post(taskController.createTask)
+          .post(authenticate, taskController.createTask)
 
 taskRouter.route('/tasks/:id')
-          .get(taskController.getTask)
-          .patch(taskController.updateTask)
-          .delete(taskController.deleteTask)
+          .get(authenticate, taskController.getTask)
+          .patch(authenticate, taskController.updateTask)
+          .delete(authenticate, taskController.deleteTask)
 
 //taskRouter.route('/tasks/:id/')
 

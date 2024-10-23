@@ -21,6 +21,10 @@ class TaskService{
         return this.taskRepository.getAll()
     }
 
+    getTask = async (id) => {
+        return await this.validateAndGetTask(id)
+    }
+
     createTask = async (task) => {
         return this.taskRepository.create(task)
     }
