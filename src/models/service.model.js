@@ -2,7 +2,7 @@ import { DataTypes, Model } from "sequelize";
 
 class Service extends Model{
     static associate(models) {
-        this.belongsTo(models.users, { foreignKey: 'user_id' });
+        this.belongsTo(models.users, { foreignKey: 'user_id', as: 'user' });
         this.hasMany(models.tasks, { foreignKey: 'service_id' });
       }
 
@@ -21,10 +21,12 @@ class Service extends Model{
                 state: {
                     type: DataTypes.STRING,
                     allowNull: false,
+                    defaultValue: 'planificado',
                 },
                 percent_advance: {
                     type: DataTypes.INTEGER,
                     allowNull: false,
+                    defaultValue: 0,
                 },
                 date_hour_init: {
                     type: DataTypes.DATE,

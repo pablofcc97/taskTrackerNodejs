@@ -15,7 +15,7 @@ class AuthService{
     }
 
     signup = async (userBody) => {
-        const {email, password, confirmPassword} = userBody
+        const {email, password, confirmPassword, name, lastname} = userBody
 
         //verify if email exists
         const existedUser = await this.userRepository.getOneByEmail(email)
@@ -27,22 +27,22 @@ class AuthService{
         const hashedPassword = await bcrypt.hash(password, SALT_ROUND)
 
         //create the user
-        await this.userRepository.create({email, password: hashedPassword})
+        await this.userRepository.create({email, password: hashedPassword, name, lastname})
 
     }
 
     validateUserByEmail = async (email) => {
         const existedUser = await this.userRepository.getOneByEmail(email)
 
-        if (existedUser) throw new ApiError(404, 'Credenciales incorrectas')
+        if (!existedUser) throw new ApiError(404, 'Credenciales incorrectas')
 
         return existedUser
     }
 
-    validatePassword = async (password) => {
+    validatePassword = async (password, hashedPassword) => {
         const passwordMatch = await bcrypt.compare(password, hashedPassword)
 
-        if (!passwordMatch) throw new ApiError(404, 'Credeciales incorrectas')
+        if (!passwordMatch) throw new ApiError(404, 'Credenciales incorrectas')
     }
 
     generateToken = async (id, expiresIn, tokenType, data) => {
@@ -54,7 +54,7 @@ class AuthService{
     generateAuthTokens = async (user) => {
         const {accessTokenExpiration} = config.jwt
         const data = {id: user.id, email: user.email}
-        const accessToken = this.generateToken(user.id, accessTokenExpiration, ACCESS_TOKEN_TYPE, data)
+        const accessToken = await this.generateToken(user.id, accessTokenExpiration, ACCESS_TOKEN_TYPE, data)
     
         return {accessToken}
     }
@@ -70,7 +70,7 @@ class AuthService{
         await this.validatePassword(password, hashedPassword)
 
         //generate tokens
-        const tokens = this.generateAuthTokens(existedUser)
+        const tokens = await this.generateAuthTokens(existedUser)
 
         return tokens
     }

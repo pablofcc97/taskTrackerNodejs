@@ -26,6 +26,10 @@ class User extends Model {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
+                permissions: {
+                    type: DataTypes.INTEGER,
+                    defaultValue: 1,
+                },
                 name: {
                     type: DataTypes.STRING,
                     allowNull: false,
@@ -34,7 +38,10 @@ class User extends Model {
                     type: DataTypes.STRING,
                     allowNull: false,
                 },
-                photo: DataTypes.STRING,
+                photo: {
+                    type: DataTypes.STRING,
+                    defaultValue: 'user.jpg',
+                },
                 ocupation: DataTypes.STRING,
                 created_at: DataTypes.DATE,
                 updated_at: DataTypes.DATE,

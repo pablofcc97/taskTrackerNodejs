@@ -6,7 +6,7 @@ class TaskService{
         this.taskRepository = new TaskRepository()
     }
 
-    validateAndGetTask = async () => {
+    validateAndGetTask = async (id) => {
         let task
 
         //td: obtener con el avance ,etc
