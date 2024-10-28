@@ -1,9 +1,16 @@
 import ServiceRepository from "../repositories/service.repository.js";
+import UserRepository from "../repositories/user.repository.js";
 import ApiError from "../utils/errorApi.js";
 
 class ServiceService{
     constructor(){
         this.serviceRepository = new ServiceRepository()
+        this.userRepository = new UserRepository()
+    }
+
+    validateUserExistance = async (id) => {
+        let user = await this.userRepository.getById(id)
+        if (!user) throw new ApiError(404, 'Usuario no disponible')
     }
 
     validateAndGetService = async (id, responsable = false) => {
@@ -28,11 +35,13 @@ class ServiceService{
     }
 
     createService = async (service) => {
+        await this.validateUserExistance(service.user_id)
         return this.serviceRepository.create(service)
     }
 
     updateService = async (id, newService) => {
         await this.validateAndGetService(id)
+        if(newService.user_id)  await this.validateUserExistance(newService.user_id)
         return this.serviceRepository.update(id, newService)
     }
 

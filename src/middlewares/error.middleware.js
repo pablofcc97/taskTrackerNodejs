@@ -11,7 +11,7 @@ export const errorConverter = (error, req, res, next) => {
 }
 
 export const errorHandler = (error, req, res, next) => {
-    const {message, statusCode, isOperational, stack} = error
+    const {message, statusCode, isOperational, stack, errorDetails} = error
 
     console.log(error)
 
@@ -19,6 +19,7 @@ export const errorHandler = (error, req, res, next) => {
         status: 'fail',
         message: isOperational ? message : 'Error interno',
         isOperational: isOperational,
+        errorDetails,
         stack: stack, // solo en desarrolloi
         data: null,
     })

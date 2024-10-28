@@ -21,7 +21,6 @@ class AuthService{
         const existedUser = await this.userRepository.getOneByEmail(email)
 
         if(existedUser) throw new ApiError(400, 'El correo ya esta en uso')
-        if(password !== confirmPassword) throw new ApiError(400, 'Las contraseñas no coinciden')
 
         //hash password
         const hashedPassword = await bcrypt.hash(password, SALT_ROUND)

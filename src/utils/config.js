@@ -9,8 +9,8 @@ const config = {
       dialect: 'mysql',
     },
     jwt: {
-      secret: process.env.JWT_SECRET,
-      accessTokenExpiration: process.env.JWT_ACCESS_TOKEN_EXPIRATION,
+      secret: process.env.JWT_SECRET ,
+      accessTokenExpiration: process.env.NODE_ENV === 'development' ? '45m' : process.env.JWT_ACCESS_TOKEN_EXPIRATION ,
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
