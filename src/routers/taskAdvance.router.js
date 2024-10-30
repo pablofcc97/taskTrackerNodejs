@@ -1,16 +1,15 @@
 import express from 'express';
 import TaskAdvanceController from '../controllers/taskAdvance.controller.js';
-import TaskAdvanceService from '../services/taskAdvance.service.js';
-import TaskAdvanceRepository from '../repositories/taskAdvance.repository.js';
-import TaskRepository from '../repositories/task.repository.js';
 import { authenticate } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { updateTaskAdvanceValidation } from '../validations/taskAdvance.validation.js';
+import CustomContainer from '../utils/customContainer.js';
 
-const taskAdvanceRepository = new TaskAdvanceRepository()
-const taskRepository = new TaskRepository()
-const taskAdvanceService = new TaskAdvanceService(taskAdvanceRepository, taskRepository)
-const taskAdvanceController = new TaskAdvanceController(taskAdvanceService)
+
+
+const container = CustomContainer.getInstance()
+const taskAdvanceController = container.get(TaskAdvanceController.name)
+
 
 const taskAdvanceRouter = express.Router()
 taskAdvanceRouter.route('/taskAdvances')

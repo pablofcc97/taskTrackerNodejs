@@ -1,12 +1,10 @@
 import express from 'express';
 import { authenticate } from '../middlewares/auth.middleware.js';
 import UserController from '../controllers/user.controller.js';
-import UserService from '../services/user.service.js';
-import UserRepository from '../repositories/user.repository.js';
+import CustomContainer from '../utils/customContainer.js';
 
-const userRepository = new UserRepository()
-const userService = new UserService(userRepository)
-const userController = new UserController(userService)
+const container = CustomContainer.getInstance()
+const userController = container.get(UserController.name)
 const userRouter = express.Router();
 
 userRouter.route('/users')

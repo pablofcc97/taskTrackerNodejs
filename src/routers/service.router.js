@@ -1,16 +1,12 @@
 import express from 'express';
-import ServiceService from '../services/service.service.js';
 import ServiceController from '../controllers/service.controller.js';
-import ServiceRepository from '../repositories/service.repository.js';
-import UserRepository from '../repositories/user.repository.js';
 import { authenticate } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { createServiceValidation, updateServiceValidation } from '../validations/service.validation.js';
+import CustomContainer from '../utils/customContainer.js';
 
-const serviceRepository = new ServiceRepository()
-const userRepository = new UserRepository()
-const serviceService = new ServiceService(serviceRepository, userRepository)
-const serviceController = new ServiceController(serviceService)
+const container = CustomContainer.getInstance()
+const serviceController = container.get(ServiceController.name)
 
 const serviceRouter = express.Router()
 serviceRouter.route('/services')

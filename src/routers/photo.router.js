@@ -1,16 +1,12 @@
 import express from 'express';
 import PhotoController from '../controllers/photo.controller.js';
-import PhotoService from '../services/photo.service.js';
-import PhotoRepository from '../repositories/photo.repository.js';
-import TaskAdvanceRepository from '../repositories/taskAdvance.repository.js';
 import { authenticate } from '../middlewares/auth.middleware.js';
 import { validate } from '../middlewares/validate.middleware.js';
 import { createPhotoValidation } from '../validations/photo.validation.js';
+import CustomContainer from '../utils/customContainer.js';
 
-const photoRepository = new PhotoRepository()
-const taskAdvanceRepository = new TaskAdvanceRepository
-const photoService = new PhotoService(photoRepository, taskAdvanceRepository)
-const photoController = new PhotoController(photoService)
+const container = CustomContainer.getInstance()
+const photoController = container.get(PhotoController.name)
 
 const photoRouter = express.Router()
 photoRouter.route('/photos')
