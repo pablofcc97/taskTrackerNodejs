@@ -1,3 +1,6 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDMyNjU3MCwiZXhwIjoxNzMwMzI5MjcwfQ.whO5KO8k_K6lIvi5IHWYs0Sb_H1yJIt_IAkALgvjOuI
+
+### Signup
 POST http://localhost:3000/auth/signup HTTP/1.1
 Content-Type: application/json
 
@@ -9,7 +12,7 @@ Content-Type: application/json
     "lastname": "Cuba Chacón"
 }
 
-###
+### Login
 POST http://localhost:3000/auth/login HTTP/1.1
 Content-Type: application/json
 
@@ -18,10 +21,10 @@ Content-Type: application/json
     "password": "password1245"
 }
 
-###
+### Crear servicio
 POST http://localhost:3000/services HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDI5OTM4NywiZXhwIjoxNzMwMzAyMDg3fQ.ZFGE7_yJvZde7xf86TdemXTr77JQvd9A1x0wqmm0OHg
+Authorization: Bearer {{token}}
 
 {
     "name": "Servicio de mantenimiento",
@@ -30,29 +33,38 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiO
     "user_id": 1
 }
 
-###
+### Crear tarea
 POST http://localhost:3000/tasks HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDI5OTM4NywiZXhwIjoxNzMwMzAyMDg3fQ.ZFGE7_yJvZde7xf86TdemXTr77JQvd9A1x0wqmm0OHg
+Authorization: Bearer {{token}}
 
 {
-    "name": "Revisión de equipos",
-    "details": "Revisión completa de los equipos de seguridad",
+    "name": "Revisión de cables",
+    "details": "Revisión completa de los rieles de seguridad",
     "date_hour_init": "2024-10-22T09:00:00Z",
     "date_hour_end": "2024-10-22T11:00:00Z",
     "personal_quantity": 3,
-    "state": "completado",
+    "state": "planificado",
     "service_id": 1
 }
 
-###
+### Obtener servicios
 GET http://localhost:3000/services HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDI5OTM4NywiZXhwIjoxNzMwMzAyMDg3fQ.ZFGE7_yJvZde7xf86TdemXTr77JQvd9A1x0wqmm0OHg
+Authorization: Bearer {{token}}
 
-###
+### Obtener tareas
 GET http://localhost:3000/tasks HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDI5OTM4NywiZXhwIjoxNzMwMzAyMDg3fQ.ZFGE7_yJvZde7xf86TdemXTr77JQvd9A1x0wqmm0OHg
+Authorization: Bearer {{token}}
 
-###
+### Obtener avances de tareas
 GET http://localhost:3000/taskAdvances HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJBQ0NFU1NfVE9LRU4iLCJkYXRhIjp7ImlkIjoxLCJlbWFpbCI6ImVtYWlsQG1haWwuY29tIn0sImlhdCI6MTczMDMwMjA5NiwiZXhwIjoxNzMwMzA0Nzk2fQ.VD6hCxtnFtZ-5TcEl8tuMUaL4rx5Exj0AJllrGfatMI
+Authorization: Bearer {{token}}
+
+### Obtener avances de tareas
+PATCH http://localhost:3000/taskAdvances/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "state": "completado"
+}
