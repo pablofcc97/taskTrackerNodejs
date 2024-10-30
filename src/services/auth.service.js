@@ -1,17 +1,12 @@
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import UserRepository from '../repositories/user.repository.js'
 import ApiError from '../utils/errorApi.js'
-import config from '../utils/config.js'
-import { OAuth2Client } from 'google-auth-library';
 
-const SALT_ROUND = 10;
-const ACCESS_TOKEN_TYPE = 'ACCESS_TOKEN';
 
 class AuthService{
-    constructor(){
-        this.userRepository = new UserRepository()
-        this.oAuth2Client =  new OAuth2Client(config.google.clientId, config.google.clientSecret, 'postmessage')
+    constructor(userRepository, oAuth2Client, tokenService, encriptionAdapter){
+        this.userRepository = userRepository
+        this.oAuth2Client =  oAuth2Client
+        this.tokenService = tokenService
+        this.encriptionAdapter = encriptionAdapter
     }
 
     signup = async (userBody) => {
@@ -23,7 +18,8 @@ class AuthService{
         if(existedUser) throw new ApiError(400, 'El correo ya esta en uso')
 
         //hash password
-        const hashedPassword = await bcrypt.hash(password, SALT_ROUND)
+        const hashedPassword = await this.encriptionAdapter.hashPassword(password)
+        //const hashedPassword = await bcrypt.hash(password, SALT_ROUND)
 
         //create the user
         await this.userRepository.create({email, password: hashedPassword, name, lastname})
@@ -39,24 +35,14 @@ class AuthService{
     }
 
     validatePassword = async (password, hashedPassword) => {
-        const passwordMatch = await bcrypt.compare(password, hashedPassword)
+        const passwordMatch = await this.encriptionAdapter.comparePassword(password, hashedPassword)
+        //const passwordMatch = await bcrypt.compare(password, hashedPassword)
 
         if (!passwordMatch) throw new ApiError(404, 'Credenciales incorrectas')
     }
 
-    generateToken = async (id, expiresIn, tokenType, data) => {
-        const payload = {sub: id, type: tokenType, data}
-
-        return jwt.sign(payload, config.jwt.secret, { expiresIn });
-    }
-
-    generateAuthTokens = async (user) => {
-        const {accessTokenExpiration} = config.jwt
-        const data = {id: user.id, email: user.email}
-        const accessToken = await this.generateToken(user.id, accessTokenExpiration, ACCESS_TOKEN_TYPE, data)
     
-        return {accessToken}
-    }
+
 
     login = async (authBody) => {
         const {email, password} = authBody
@@ -69,7 +55,7 @@ class AuthService{
         await this.validatePassword(password, hashedPassword)
 
         //generate tokens
-        const tokens = await this.generateAuthTokens(existedUser)
+        const tokens = await this.tokenService.generateAuthTokens(existedUser)
 
         return tokens
     }
@@ -90,7 +76,7 @@ class AuthService{
           user = await this.userRepository.create({ email })
         }
     
-        return this.generateAuthTokens(user)
+        return this.tokenService.generateAuthTokens(user)
     }
 }
 

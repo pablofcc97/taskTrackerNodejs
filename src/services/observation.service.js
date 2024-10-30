@@ -1,9 +1,11 @@
 import ObservationRepository from "../repositories/observation.repository.js";
+import TaskAdvanceRepository from "../repositories/taskAdvance.repository.js";
 import ApiError from "../utils/errorApi.js";
 
 class ObservationService{
-    constructor(){
-        this.observationRepository = new ObservationRepository()
+    constructor(observationRepository, taskAdvanceRepository){
+        this.observationRepository = observationRepository
+        this.taskAdvanceRepository = taskAdvanceRepository
     }
 
     validateAndGetObservation = async (id) => {
@@ -17,6 +19,16 @@ class ObservationService{
         return observation
     }
 
+    validateTaskAdvance = async (id) => {
+        let taskAdvance
+
+        //td: obtener con el avance ,etc
+        taskAdvance = await this.taskAdvanceRepository.getById(id);
+
+        if (!taskAdvance) throw new ApiError(404, 'Avance no disponible. Verificar')
+    }
+
+
     listObservations = async () => {
         return this.observationRepository.getAll()
     }
@@ -26,6 +38,7 @@ class ObservationService{
     }
 
     createObservation = async (observation) => {
+        await this.validateTaskAdvance(observation.task_advance_id)
         return this.observationRepository.create(observation)
     }
 

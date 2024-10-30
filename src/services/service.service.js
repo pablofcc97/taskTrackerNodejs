@@ -3,9 +3,9 @@ import UserRepository from "../repositories/user.repository.js";
 import ApiError from "../utils/errorApi.js";
 
 class ServiceService{
-    constructor(){
-        this.serviceRepository = new ServiceRepository()
-        this.userRepository = new UserRepository()
+    constructor(serviceRepository, userRepository){
+        this.serviceRepository = serviceRepository
+        this.userRepository = userRepository
     }
 
     validateUserExistance = async (id) => {

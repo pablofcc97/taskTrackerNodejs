@@ -1,13 +1,16 @@
 import AuthService from '../services/auth.service.js';
+import { matchedData } from 'express-validator';
 import { catchAsync } from '../utils/controller.js';
 
 class AuthController {
-  constructor() {
-    this.authService = new AuthService();
+  constructor(authService) {
+    this.authService = authService
   }
 
   signup = catchAsync(async (req, res) => {
-    await this.authService.signup(req.body);
+
+    const matchedBody = matchedData(req)
+    await this.authService.signup(matchedBody)
 
     res.status(201).json({
       status: 'success',
@@ -17,7 +20,8 @@ class AuthController {
   });
 
   login = catchAsync(async (req, res) => {
-    const tokens = await this.authService.login(req.body);
+    const matchedBody = matchedData(req)
+    const tokens = await this.authService.login(matchedBody);
 
     res.status(200).json({
       status: 'success',

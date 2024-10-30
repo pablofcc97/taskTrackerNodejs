@@ -7,6 +7,7 @@ class TaskAdvanceRepository extends BaseRepository{
     }
 
     //All custom DB requests
+    
 }
 
 export default TaskAdvanceRepository

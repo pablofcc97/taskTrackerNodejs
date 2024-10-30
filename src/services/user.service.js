@@ -2,8 +2,8 @@ import UserRepository from '../repositories/user.repository.js'
 import ApiError from '../utils/errorApi.js'
 
 class UserService{
-    constructor(){
-        this.userRepository = new UserRepository()
+    constructor(userRepository){
+        this.userRepository = userRepository
     }
 
     validateAndGetUser = async (id) => {

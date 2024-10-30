@@ -2,8 +2,8 @@ import TaskService from '../services/task.service.js';
 import { catchAsync } from '../utils/controller.js';
 
 export default class TaskController {
-    constructor(){
-        this.taskService = new TaskService()
+    constructor(taskService){
+        this.taskService = taskService
     }
 
     listTasks = catchAsync( async (req, res) => {

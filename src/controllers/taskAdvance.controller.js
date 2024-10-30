@@ -2,8 +2,8 @@ import TaskAdvanceService from '../services/taskAdvance.service.js';
 import { catchAsync } from '../utils/controller.js';
 
 export default class TaskAdvanceController {
-    constructor(){
-        this.taskAdvanceService = new TaskAdvanceService()
+    constructor( taskAdvanceService){
+        this.taskAdvanceService = taskAdvanceService
     }
 
     listTaskAdvances = catchAsync( async (req, res) => {

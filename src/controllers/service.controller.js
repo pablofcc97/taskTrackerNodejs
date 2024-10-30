@@ -2,8 +2,8 @@ import ServiceService from '../services/service.service.js';
 import { catchAsync } from '../utils/controller.js';
 
 export default class ServiceController {
-    constructor(){
-        this.serviceService = new ServiceService()
+    constructor(serviceService){
+        this.serviceService = serviceService
     }
 
     listServices = catchAsync( async (req, res) => {

@@ -2,8 +2,8 @@ import UserService from '../services/user.service.js'
 import { catchAsync } from '../utils/controller.js';
 
 export default class UserController{
-    constructor(){
-        this.userService = new UserService()
+    constructor(userService){
+        this.userService = userService
     }
 
     listUsers = catchAsync( async (req, res) => {

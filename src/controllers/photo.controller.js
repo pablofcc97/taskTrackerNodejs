@@ -2,8 +2,8 @@ import PhotoService from '../services/photo.service.js';
 import { catchAsync } from '../utils/controller.js';
 
 export default class PhotoController {
-    constructor(){
-        this.photoService = new PhotoService()
+    constructor(photoService){
+        this.photoService = photoService
     }
 
     listPhotos = catchAsync( async (req, res) => {

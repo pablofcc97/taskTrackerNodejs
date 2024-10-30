@@ -3,8 +3,8 @@ import { DataTypes, Model } from "sequelize";
 class Service extends Model{
     static associate(models) {
         this.belongsTo(models.users, { foreignKey: 'user_id', as: 'user' });
-        this.hasMany(models.tasks, { foreignKey: 'service_id' });
-      }
+        this.hasMany(models.tasks, { foreignKey: 'service_id', onDelete: 'CASCADE' }); // Un servicio tiene muchas tareas
+    }
 
     static init(sequelize){
         super.init(

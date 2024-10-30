@@ -2,9 +2,9 @@ import { DataTypes, Model } from "sequelize";
 
 class Task extends Model{
     static associate(models) {
-        this.belongsTo(models.services, { foreignKey: 'task_id' });
-        this.hasOne(models.taskAdvances, { foreignKey: 'service_id' });
-      }
+        this.belongsTo(models.services, { foreignKey: 'service_id', onDelete: 'CASCADE' }); // Cambiado a 'service_id'
+        this.hasOne(models.taskAdvances, { foreignKey: 'task_id' }); // Cada tarea tiene un avance de tarea
+    }
 
     static init(sequelize){
         super.init(
@@ -20,7 +20,6 @@ class Task extends Model{
                 },
                 details: {
                     type: DataTypes.STRING,
-                    allowNull: false,
                 },
                 date_hour_init: {
                     type: DataTypes.DATE,
@@ -36,7 +35,7 @@ class Task extends Model{
                 },
                 personal_quantity: {
                     type: DataTypes.INTEGER,
-                    allowNull: false,
+                    defaultValue: 0,
                 },
                 state: {
                     type: DataTypes.STRING,

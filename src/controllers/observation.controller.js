@@ -2,8 +2,8 @@ import ObservationService from '../services/observation.service.js';
 import { catchAsync } from '../utils/controller.js';
 
 export default class ObservationController {
-    constructor(){
-        this.observationService = new ObservationService()
+    constructor(observationService){
+        this.observationService =  observationService
     }
 
     listObservations = catchAsync( async (req, res) => {
