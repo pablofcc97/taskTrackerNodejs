@@ -13,8 +13,8 @@ import { Server } from 'socket.io';
 
 const startServer = async () => {
     try {
-        const server = createServer(app); // Crea el servidor HTTP
-        const io = new Server(server, { cors: { origin: "*" } }); // Habilita CORS en el servidor de Socket.IO
+        const server = createServer(app); 
+        const io = new Server(server, { cors: { origin: "*" } });
 
         await db.authenticate();
         console.log('Conectando a la base de datos');
@@ -28,13 +28,8 @@ const startServer = async () => {
         io.on('connection', (socket) => {
             console.log('SOCKET Un usuario entró:', socket.id);
 
-            socket.on('sendMessage', (data) => {
-                console.log('SOCKET Recibiendo:', data);
-            });
-
             socket.on('taskCreated', (taskData) => {
                 console.log('Nueva tarea creada:', taskData);
-                // Aquí puedes emitir la tarea a otros clientes o realizar más acciones
                 io.emit('newTask', taskData);
             });
 
