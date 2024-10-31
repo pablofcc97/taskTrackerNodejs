@@ -9,6 +9,7 @@ import { jwtStrategy } from './utils/passport.js';
 
 const app = express()
 
+
 //Logs
 app.use(morgan('dev'))
 

@@ -7,7 +7,7 @@ El proyecto consiste en el desarrollo de una base de datos y una API (Applicatio
 📚 Funcionalidades
 Generar una base de datos con los usuarios, servicios, tareas de cada servicio, avance real de cada tarea, observaciones por tarea y fotografias.
 Calculo de cantidad de tareas incompletas, completas, atrasadas.
-Llevar mejor el manejo de las tareas proyectadas en cada servicio ejecutado.
+Llevar mejor el manejo de las tareas proyectadas en cada servicio ejecutado en tiempo real.
 🚀 Instrucciones para ejecutar el proyecto
 Clonar repositorio
 Abrir el proyecto con el IDE de tu preferencia
@@ -19,5 +19,6 @@ En el proyecto se aplicaron los siguientes conceptos:
 Endpoints CRUD
 Autenticación y autorización: Implementación de JWT(JSON Web Token)
 Validación de datos: Uso de Express validator para la validación automática de los datos de entrada y salida.
+Manejo de datos en tiempo real: Uso de socket IO para enviar y recibir datos en tiempo real
 👩🏻‍💻 Autor
 Pablo Fabian Cuba Chacón
