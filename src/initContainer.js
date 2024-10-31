@@ -5,3 +5,4 @@ import './container/taskAdvance.container.js';
 import './container/observation.container.js';
 import './container/photo.container.js';
 import './container/user.container.js';
+import './container/io.container.js';

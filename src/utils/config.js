@@ -10,7 +10,7 @@ const config = {
     },
     jwt: {
       secret: process.env.JWT_SECRET ,
-      accessTokenExpiration: process.env.NODE_ENV === 'development' ? '45m' : process.env.JWT_ACCESS_TOKEN_EXPIRATION ,
+      accessTokenExpiration: process.env.NODE_ENV === 'development' ? '10h' : process.env.JWT_ACCESS_TOKEN_EXPIRATION ,
     },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
