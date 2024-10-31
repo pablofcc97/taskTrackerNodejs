@@ -1,16 +1,16 @@
+// src/index.js
 import 'dotenv/config';
-import './initContainer.js'
+import './initContainer.js';
 import swaggerUi from 'swagger-ui-express';
 import swaggerParser from '@apidevtools/swagger-parser';
 import app from './app.js';
 import config from './utils/config.js';
 import { db } from './utils/database.js';
 import './models/index.js';
-//socket io
-import {createServer} from 'http'
-import CustomContainer from './utils/customContainer.js';
-import { Server } from 'socket.io';
 
+// Socket.IO
+import CustomContainer from './utils/customContainer.js';
+import setupSocketHandlers from './socketHandlers/index.socketHandler.js';
 
 const startServer = async () => {
     try {
@@ -22,7 +22,7 @@ const startServer = async () => {
             console.log('Base de datos sincronizada y restablecida');
         }
 
-        // Inicia el servidor en el puerto especificado
+        // Inicia el servidor HTTP
         app.listen(config.port, () => {
             console.log(`Servidor escuchando en el puerto ${config.port}`);
         });
@@ -34,29 +34,15 @@ const startServer = async () => {
 const startWebSocketServer = () => {
     const container = CustomContainer.getInstance();
     const io = container.get('socketServer');
+    const httpServer = container.get('createServer');
 
-    // Configuración de Socket.IO
-    io.on('connection', (socket) => {
-        console.log('SOCKET Un usuario entró:', socket.id);
+    // Configura los manejadores de Socket.IO usando setupSocketHandlers
+    setupSocketHandlers(io);
 
-        socket.on('taskCreated', (taskData) => {
-            console.log('Nueva tarea creada:', taskData);
-            io.emit('newTask', taskData);
-        });
-
-        socket.on('taskAdvanceompleted', (taskAdvanceData) => {
-            console.log('Nuevo avance completado:', taskAdvanceData);
-            io.emit('newTaskAdvanceCompleted', taskAdvanceData);
-        });
-
-        socket.on('disconnect', () => {
-            console.log('SOCKET Un usuario salió:', socket.id);
-        });
+    httpServer.listen(3500, () => {
+        console.log(`WebSocket escuchando en el puerto 3500`);
     });
-
-    const httpServer = container.get('createServer'); 
-    httpServer.listen(3500);
 };
 
 startServer();
-startWebSocketServer()
+startWebSocketServer();
